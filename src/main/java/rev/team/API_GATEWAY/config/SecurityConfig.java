@@ -13,16 +13,16 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import rev.team.API_GATEWAY.filter.JwtRequestFilter;
-import rev.team.API_GATEWAY.service.MyUserDetailsService;
+import rev.team.API_GATEWAY.user.service.RevUserService;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final MyUserDetailsService myUserDetailsService;
+    private final RevUserService myUserDetailsService;
     private final JwtRequestFilter jwtRequestFilter;
 
     @Autowired
-    public SecurityConfig(MyUserDetailsService myUserDetailsService
+    public SecurityConfig(RevUserService myUserDetailsService
             ,JwtRequestFilter jwtRequestFilter){
         this.myUserDetailsService = myUserDetailsService;
         this .jwtRequestFilter = jwtRequestFilter;

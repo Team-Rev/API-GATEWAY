@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import rev.team.API_GATEWAY.models.AuthenticationRequest;
 import rev.team.API_GATEWAY.models.AuthenticationResponse;
-import rev.team.API_GATEWAY.service.MyUserDetailsService;
+import rev.team.API_GATEWAY.user.service.RevUserService;
 import rev.team.API_GATEWAY.util.JwtUtil;
 
 
 @RestController
 public class AuthenticationController {
 
-    private AuthenticationManager authenticationManager;
-    private final MyUserDetailsService userDetailsService;
+    private final AuthenticationManager authenticationManager;
+    private final RevUserService userDetailsService;
     private final JwtUtil jwtTokenUtil;
 
     @Autowired
-    public AuthenticationController(MyUserDetailsService userDetailsService
+    public AuthenticationController(RevUserService userDetailsService
             , JwtUtil jwtTokenUtil
             ,AuthenticationManager authenticationManager){
         this.userDetailsService = userDetailsService;

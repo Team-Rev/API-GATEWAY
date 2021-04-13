@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import rev.team.API_GATEWAY.service.MyUserDetailsService;
+import rev.team.API_GATEWAY.user.service.RevUserService;
 import rev.team.API_GATEWAY.util.JwtUtil;
 
 import javax.servlet.FilterChain;
@@ -20,11 +20,11 @@ import java.util.Objects;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    private final MyUserDetailsService userDetailsService;
+    private final RevUserService userDetailsService;
     private final JwtUtil jwtTokenUtil;
 
     @Autowired
-    public JwtRequestFilter(MyUserDetailsService userDetailsService, JwtUtil jwtTokenUtil) {
+    public JwtRequestFilter(RevUserService userDetailsService, JwtUtil jwtTokenUtil) {
         this.userDetailsService = userDetailsService;
         this.jwtTokenUtil = jwtTokenUtil;
     }

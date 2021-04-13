@@ -1,0 +1,27 @@
+package rev.team.API_GATEWAY.user.domain;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+
+import javax.persistence.*;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Entity
+@Table(name="rev_user_authority")
+@IdClass(RevAuthority.class)
+public class RevAuthority implements GrantedAuthority {
+
+    @Id
+    @Column(name="user_id")
+    private Long userId;
+
+    @Id
+    private String authority;
+
+}
