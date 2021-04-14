@@ -28,6 +28,7 @@ public class RevUser implements UserDetails {
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name="user_id"))
     private Set<RevAuthority> authorities;
 
+    @Column(columnDefinition = "boolean default true")
     private boolean enabled;
 
     @Override

@@ -13,6 +13,7 @@ import rev.team.API_GATEWAY.user.repository.RevUserRepository;
 import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,7 +38,11 @@ public class RevUserService implements UserDetailsService {
     }
 
     public RevUser save(RevUser user) {
-        return userRepository.save(user);
+        if(userRepository.findRevUserByEmail(user.getEmail()).isPresent()) return null;
+        user.setEnabled(true);
+        RevUser newUser = userRepository.save(user);
+        addAuthority(newUser.getUserId(), "USER");
+        return newUser;
     }
 
     public void addAuthority(Long userId, String authority){

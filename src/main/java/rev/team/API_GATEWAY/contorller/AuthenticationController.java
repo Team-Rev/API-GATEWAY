@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import rev.team.API_GATEWAY.models.AuthenticationRequest;
 import rev.team.API_GATEWAY.models.AuthenticationResponse;
+import rev.team.API_GATEWAY.user.domain.RevUser;
 import rev.team.API_GATEWAY.user.service.RevUserService;
 import rev.team.API_GATEWAY.util.JwtUtil;
 
@@ -29,6 +30,11 @@ public class AuthenticationController {
         this.userDetailsService = userDetailsService;
         this.jwtTokenUtil = jwtTokenUtil;
         this.authenticationManager = authenticationManager;
+    }
+
+    @PostMapping("/signup")
+    public String signUp(@RequestBody RevUser user){
+        return userDetailsService.save(user) == null ? "FAIL" : "SUCCESS";
     }
 
     @PostMapping("/authenticate")
