@@ -29,23 +29,25 @@ public class RevUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findRevUserByEmail(username).orElseThrow(
+        return userRepository.findRevUserByUserId(username).orElseThrow(
                 ()->new UsernameNotFoundException(username));
     }
 
-    public Optional<RevUser> findUser(String email) {
-        return userRepository.findRevUserByEmail(email);
+    public Optional<RevUser> findUser(String id) {
+        return userRepository.findRevUserByUserId(id);
     }
 
     public RevUser save(RevUser user) {
-        if(userRepository.findRevUserByEmail(user.getEmail()).isPresent()) return null;
+        if(!user.isRightFormat()) return null;
+        if(userRepository.findRevUserByUserId(user.getUserId()).isPresent()) return null;
         user.setEnabled(true);
+        user.setPoint(0L);
         RevUser newUser = userRepository.save(user);
         addAuthority(newUser.getUserId(), "USER");
         return newUser;
     }
 
-    public void addAuthority(Long userId, String authority){
+    public void addAuthority(String userId, String authority){
         userRepository.findById(userId).ifPresent(user->{
             RevAuthority newRole = new RevAuthority(user.getUserId(), authority);
             if(user.getAuthorities() == null){
@@ -62,7 +64,7 @@ public class RevUserService implements UserDetailsService {
         });
     }
 
-    public void removeAuthority(Long userId, String authority){
+    public void removeAuthority(String userId, String authority){
         userRepository.findById(userId).ifPresent(user->{
             if(user.getAuthorities()==null) return;
             RevAuthority targetRole = new RevAuthority(user.getUserId(), authority);

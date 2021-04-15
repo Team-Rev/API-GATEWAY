@@ -18,6 +18,8 @@ spring:
     password: teamrev2021
 
 zuul:
+  debug:
+    request: true
   routes:
     PROBLEM-SERVICE:
       path: /problem/**

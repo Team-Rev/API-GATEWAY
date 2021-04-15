@@ -5,6 +5,6 @@ import rev.team.API_GATEWAY.user.domain.RevUser;
 
 import java.util.Optional;
 
-public interface RevUserRepository extends JpaRepository<RevUser, Long> {
-    Optional<RevUser> findRevUserByEmail(String email);
+public interface RevUserRepository extends JpaRepository<RevUser, String> {
+    Optional<RevUser> findRevUserByUserId(String id);
 }
