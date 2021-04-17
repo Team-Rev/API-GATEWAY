@@ -34,7 +34,7 @@ public class AuthenticationController {
 
     @PostMapping("/signup")
     public String signUp(@RequestBody RevUser user){
-        return userDetailsService.save(user) == null ? "FAIL" : "SUCCESS";
+        return userDetailsService.save(user);
     }
 
     @PostMapping("/authenticate")

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class RevUserService implements UserDetailsService {
 
-    private RevUserRepository userRepository;
+    private final RevUserRepository userRepository;
 
     @Autowired
     public RevUserService(RevUserRepository userRepository){
@@ -37,14 +37,14 @@ public class RevUserService implements UserDetailsService {
         return userRepository.findRevUserByUserId(id);
     }
 
-    public RevUser save(RevUser user) {
-        if(!user.isRightFormat()) return null;
-        if(userRepository.findRevUserByUserId(user.getUserId()).isPresent()) return null;
+    public String save(RevUser user) {
+        if(!user.isRightFormat()) return "FAIL TO isRightFormat";
+        if(userRepository.findRevUserByUserId(user.getUserId()).isPresent()) return "ID is present";
         user.setEnabled(true);
         user.setPoint(0L);
         RevUser newUser = userRepository.save(user);
         addAuthority(newUser.getUserId(), "USER");
-        return newUser;
+        return "SUCCESS";
     }
 
     public void addAuthority(String userId, String authority){

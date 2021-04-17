@@ -74,6 +74,7 @@ public class RevUser implements UserDetails {
         if(DOB == null) return false; //생일이 비어 있는지
         if(address == null) return false; // 주소가 비어있는지
 
+        System.out.println("PASS isRightFormat");
         return true;
     }
 
