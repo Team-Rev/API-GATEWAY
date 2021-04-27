@@ -1,5 +1,6 @@
 package rev.team.API_GATEWAY.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,11 +30,16 @@ public class RevUser implements UserDetails {
 
     private String name;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate DOB;
 
     private String phone;
 
     private String address;
+
+    private String detailAddress;
+
+    private String postNumber;
 
     private Long point;
 
@@ -47,7 +52,7 @@ public class RevUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return nickname;
+        return userId;
     }
 
     @Override
@@ -66,6 +71,7 @@ public class RevUser implements UserDetails {
     }
 
     public boolean isRightFormat(){
+        System.out.println(this.toString());
         if(!isValidEmail(this.userId)) return false; // 이메일 형식 맞는지
         if(!checkLength(this.password, 8)) return false; // 패스워드 길이 8자 이상인지
         if(!checkLength(this.nickname, 2)) return false; // 닉네임 길이 2자 이상인지
@@ -73,8 +79,9 @@ public class RevUser implements UserDetails {
         if(!isValidPhone(this.phone)) return false; // 휴대폰 형식 맞는지 이상인지
         if(DOB == null) return false; //생일이 비어 있는지
         if(address == null) return false; // 주소가 비어있는지
+        if(detailAddress == null) return false; // 주소가 비어있는지
+        if(postNumber == null) return false; // 주소가 비어있는지
 
-        System.out.println("PASS isRightFormat");
         return true;
     }
 

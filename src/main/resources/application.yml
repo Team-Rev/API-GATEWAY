@@ -13,10 +13,9 @@ spring:
       ddl-auto: update # 새로 추가한 옵션 Entity Class 기반으로 Table 생성
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://3.35.24.199:3306/rev_problem?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
+    url: jdbc:mysql://teamrev-db.cskul8vj3asp.ap-northeast-2.rds.amazonaws.com:3306/rev_problem?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
     username: root
     password: teamrev2021
-
 zuul:
   debug:
     request: true
@@ -31,5 +30,6 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://3.35.24.199:8761/eureka
+#      defaultZone: http://localhost:8761/eureka
   instance:
-    hostname: ec2_eureka
+    hostname: 3.35.24.199
