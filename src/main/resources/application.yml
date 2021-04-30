@@ -17,19 +17,32 @@ spring:
     username: root
     password: teamrev2021
 zuul:
-  debug:
-    request: true
   routes:
     PROBLEM-SERVICE:
       path: /problem/**
       serviceId: PROBLEM-SERVICE
+  host:
+    time-to-live: 1
+    connect-timeout-millis: 5000
+    max-per-route-connections: 10000
+    max-total-connections: 5000
+    socket-timeout-millis: 60000
+  semaphore:
+    max-semaphores: 500
+
+ribbon:
+  eureka:
+    enabled: true
+  ConnectTimeout: 30000
+  ReadTimeout: 30000
+
 
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://3.35.24.199:8761/eureka
-#      defaultZone: http://localhost:8761/eureka
+#      defaultZone: http://3.35.24.199:8761/eureka
+      defaultZone: http://localhost:8761/eureka
   instance:
-    hostname: 3.35.24.199
+    hostname: localhost

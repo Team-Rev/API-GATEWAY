@@ -38,7 +38,7 @@ public class RevUserService implements UserDetailsService {
 
     public String save(RevUser user) {
         if(!user.isRightFormat()) return "FAIL TO isRightFormat";
-        if(userRepository.findRevUserByUserId(user.getUserId()).isPresent()) return "ID is present";
+        if(userRepository.existsById(user.getUserId())) return "ID is present";
         user.setEnabled(true);
         user.setPoint(0L);
         RevUser newUser = userRepository.save(user);
