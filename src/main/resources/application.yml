@@ -16,6 +16,7 @@ spring:
     url: jdbc:mysql://teamrev-db.cskul8vj3asp.ap-northeast-2.rds.amazonaws.com:3306/rev_problem?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
     username: root
     password: teamrev2021
+
 zuul:
   routes:
     PROBLEM-SERVICE:
@@ -29,13 +30,13 @@ zuul:
     socket-timeout-millis: 60000
   semaphore:
     max-semaphores: 500
+  ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin
 
 ribbon:
   eureka:
     enabled: true
   ConnectTimeout: 30000
   ReadTimeout: 30000
-
 
 eureka:
   client:
