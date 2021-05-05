@@ -16,7 +16,6 @@ import rev.team.API_GATEWAY.user.domain.RevUser;
 import rev.team.API_GATEWAY.user.service.RevUserService;
 import rev.team.API_GATEWAY.util.JwtUtil;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class AuthenticationController {
 

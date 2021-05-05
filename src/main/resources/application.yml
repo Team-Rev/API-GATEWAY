@@ -30,7 +30,6 @@ zuul:
     socket-timeout-millis: 60000
   semaphore:
     max-semaphores: 500
-  ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin
 
 ribbon:
   eureka:
