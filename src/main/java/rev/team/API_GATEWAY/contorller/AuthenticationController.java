@@ -6,10 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import rev.team.API_GATEWAY.models.AuthenticationRequest;
 import rev.team.API_GATEWAY.models.AuthenticationResponse;
 import rev.team.API_GATEWAY.user.domain.RevUser;
@@ -51,5 +48,9 @@ public class AuthenticationController {
         final String jwt = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetailsService.findUser(authenticationRequest.getUsername()).orElse(null).getNickname()));
+    }
+    @GetMapping("/nickname")
+    public String getNickname(@RequestParam String id){
+        return userDetailsService.findUser(id).orElse(null).getNickname();
     }
 }
