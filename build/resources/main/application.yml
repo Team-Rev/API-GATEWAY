@@ -1,0 +1,54 @@
+server:
+  port: 8760
+
+spring:
+  application:
+    name: API-GATEWAY
+  devtools:
+    livereload:
+      enabled: true
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update # 새로 추가한 옵션 Entity Class 기반으로 Table 생성
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://teamrev-db.cskul8vj3asp.ap-northeast-2.rds.amazonaws.com:3306/rev_problem?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
+    username: root
+    password: teamrev2021
+
+zuul:
+  routes:
+    PROBLEM-SERVICE:
+      path: /problem/**
+      serviceId: PROBLEM-SERVICE
+    BOARD-SERVICE:
+      path: /board/**
+      serviceId: BOARD-SERVICE
+    POINT-SERVICE:
+      path: /point/**
+      serviceId: POINT-SERVICE
+  host:
+    time-to-live: 1
+    connect-timeout-millis: 5000
+    max-per-route-connections: 10000
+    max-total-connections: 5000
+    socket-timeout-millis: 60000
+  semaphore:
+    max-semaphores: 500
+
+ribbon:
+  eureka:
+    enabled: true
+  ConnectTimeout: 30000
+  ReadTimeout: 30000
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+#      defaultZone: http://3.35.24.199:8761/eureka
+      defaultZone: http://10.178.0.3:8761/eureka
+  instance:
+    hostname: 10.178.0.3

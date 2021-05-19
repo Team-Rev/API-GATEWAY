@@ -9,8 +9,4 @@ import java.util.Optional;
 
 public interface RevUserRepository extends JpaRepository<RevUser, String> {
     Optional<RevUser> findRevUserByUserId(String id);
-
-
-    @Query(value = "SELECT RevUser.point FROM RevUser WHERE (RevUser.userId = :id)")
-    Long findPointByUserId(String id);
 }

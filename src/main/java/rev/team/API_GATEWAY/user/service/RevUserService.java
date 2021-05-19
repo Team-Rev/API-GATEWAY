@@ -76,8 +76,4 @@ public class RevUserService implements UserDetailsService {
             }
         });
     }
-
-    public Long getPoint(String id) {
-        return userRepository.findPointByUserId(id);
-    }
 }
