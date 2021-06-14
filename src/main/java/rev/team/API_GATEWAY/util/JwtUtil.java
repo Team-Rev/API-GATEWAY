@@ -4,10 +4,11 @@ package rev.team.API_GATEWAY.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
+import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,8 +16,12 @@ import java.util.function.Function;
 
 @Service
 public class JwtUtil {
-    private final SecretKey SECRET_KEY = io.jsonwebtoken.security.Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private static Key KEY;
 
+    private static Key getKEY(){
+        if(KEY == null) KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        return KEY;
+    }
     public String extractUsername(String token){
 
         return extractClaim(token, Claims::getSubject);
@@ -32,7 +37,8 @@ public class JwtUtil {
     }
 
     private  Claims extreactAllClaims(String token){
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+        Key KEY = getKEY();
+        return Jwts.parser().setSigningKey(KEY).parseClaimsJws(token).getBody();
     }
 
     private Boolean isTokenExpired(String token){
@@ -45,9 +51,13 @@ public class JwtUtil {
     }
 
     private String createToken(Map<String, Object> claims, String subject){
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+        Key KEY = getKEY();
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(subject)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
+                .signWith(KEY, SignatureAlgorithm.HS256).compact();
     }
 
     public Boolean validateToken(String token, UserDetails userDetails){
