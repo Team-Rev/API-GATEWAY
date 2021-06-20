@@ -25,6 +25,9 @@ zuul:
     BOARD-SERVICE:
       path: /board/**
       serviceId: BOARD-SERVICE
+    INQUIRY-SERVICE:
+      path: /inquiry/**
+      serviceId: INQUIRY-SERVICE
     POINT-SERVICE:
       path: /point/**
       serviceId: POINT-SERVICE
