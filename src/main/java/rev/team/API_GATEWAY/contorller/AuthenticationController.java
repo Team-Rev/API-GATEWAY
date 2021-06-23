@@ -49,4 +49,9 @@ public class AuthenticationController {
 
 
     //Refresh Token
+    
+    @GetMapping("/point")
+    public Long getPoint(@RequestParam String id) {
+        return userDetailsService.findUser(id).orElse(null).getPoint();
+    }
 }
