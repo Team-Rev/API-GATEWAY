@@ -43,15 +43,11 @@ public class AuthenticationController {
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String jwt = jwtTokenUtil.generateToken(userDetails);
-        String nickname = api.getForEntity("http://localhost:8775/nickname?username="+authenticationRequest.getUsername(),String.class).getBody();
+        String nickname = userDetailsService.getNickname(authenticationRequest.getUsername());
         return ResponseEntity.ok(new AuthenticationResponse(jwt, nickname));
     }
 
 
     //Refresh Token
-    
-    @GetMapping("/point")
-    public Long getPoint(@RequestParam String id) {
-        return userDetailsService.findUser(id).orElse(null).getPoint();
-    }
+
 }
