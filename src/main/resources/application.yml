@@ -31,6 +31,9 @@ zuul:
     POINT-SERVICE:
       path: /point/**
       serviceId: POINT-SERVICE
+    AUTH-SERVICE:
+      path: /auth/**
+      serviceId: AUTH-SERVICE
   host:
     time-to-live: 1
     connect-timeout-millis: 5000

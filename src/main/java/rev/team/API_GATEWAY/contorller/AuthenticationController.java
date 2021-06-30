@@ -7,11 +7,13 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import rev.team.API_GATEWAY.models.AuthenticationRequest;
 import rev.team.API_GATEWAY.models.AuthenticationResponse;
-import rev.team.API_GATEWAY.user.domain.RevUser;
 import rev.team.API_GATEWAY.user.service.RevUserService;
 import rev.team.API_GATEWAY.util.JwtUtil;
+
+import java.util.Objects;
 
 @RestController
 public class AuthenticationController {
@@ -29,13 +31,9 @@ public class AuthenticationController {
         this.authenticationManager = authenticationManager;
     }
 
-    @PostMapping("/signup")
-    public String signUp(@RequestBody RevUser user){
-        return userDetailsService.save(user);
-    }
-
     @PostMapping("/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest)throws Exception{
+        RestTemplate api = new RestTemplate();
         try{
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
@@ -43,19 +41,13 @@ public class AuthenticationController {
         }catch (BadCredentialsException e){
             throw new Exception("Incorrect username or password", e);
         }
-        final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.getUsername());
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String jwt = jwtTokenUtil.generateToken(userDetails);
+        String nickname = userDetailsService.getNickname(authenticationRequest.getUsername());
+        return ResponseEntity.ok(new AuthenticationResponse(jwt, nickname));
+    }
 
-        return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetailsService.findUser(authenticationRequest.getUsername()).orElse(null).getNickname()));
-    }
-    @GetMapping("/nickname")
-    public String getNickname(@RequestParam String id){
-        return userDetailsService.findUser(id).orElse(null).getNickname();
-    }
-    
-    @GetMapping("/point")
-    public Long getPoint(@RequestParam String id) {
-        return userDetailsService.findUser(id).orElse(null).getPoint();
-    }
+
+    //Refresh Token
+
 }
