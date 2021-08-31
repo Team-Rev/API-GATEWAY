@@ -18,6 +18,7 @@ public class RevUserService implements UserDetailsService {
     private String getURL(){
         return "http://" + AUTH_SERVER + ":8775";
     }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         RestTemplate api = new RestTemplate();
