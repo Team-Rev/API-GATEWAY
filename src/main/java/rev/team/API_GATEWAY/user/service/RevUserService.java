@@ -13,7 +13,7 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class RevUserService implements UserDetailsService {
-    private final static String AUTH_SERVER = "localhost";
+        private final static String AUTH_SERVER = "10.178.0.2";
 
     private String getURL(){
         return "http://" + AUTH_SERVER + ":8775";
