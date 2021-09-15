@@ -1,6 +1,7 @@
 package rev.team.API_GATEWAY.contorller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -32,22 +33,17 @@ public class AuthenticationController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest)throws Exception{
-        RestTemplate api = new RestTemplate();
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception{
         try{
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
+                    new UsernamePasswordAuthenticationToken(authenticationRequest.getUserId(), authenticationRequest.getPassword())
             );
-        }catch (BadCredentialsException e){
-            throw new Exception("Incorrect username or password", e);
+        }catch (Exception e){
+            return new ResponseEntity<>("Incorrect username or password", HttpStatus.OK);
         }
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUserId());
         final String jwt = jwtTokenUtil.generateToken(userDetails);
-        String nickname = userDetailsService.getNickname(authenticationRequest.getUsername());
+        String nickname = userDetailsService.getNickname(authenticationRequest.getUserId());
         return ResponseEntity.ok(new AuthenticationResponse(jwt, nickname));
     }
-
-
-    //Refresh Token
-
 }

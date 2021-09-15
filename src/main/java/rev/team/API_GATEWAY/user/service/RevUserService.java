@@ -22,11 +22,11 @@ public class RevUserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         RestTemplate api = new RestTemplate();
-        return api.getForEntity(getURL() + "/user?username=" + username, RevUser.class).getBody();
+        return api.getForEntity(getURL() + "/userInfo?userId=" + username, RevUser.class).getBody();
     }
 
     public String getNickname(String username){
         RestTemplate api = new RestTemplate();
-        return api.getForEntity(getURL() + "/nickname?username=" + username, String.class).getBody();
+        return api.getForEntity(getURL() + "/nickname?userId=" + username, String.class).getBody();
     }
 }

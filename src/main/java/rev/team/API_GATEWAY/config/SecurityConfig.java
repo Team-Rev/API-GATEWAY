@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .cors().disable()
                 .csrf().disable()
-                .authorizeRequests().antMatchers("/auth/**", "/authenticate", "/board/post**", "/board/notice**", "/board/ask**/**", "/board/comment**").permitAll()
+                .authorizeRequests().antMatchers("/auth/**", "/authenticate", "/board/post**", "/board/notice**", "/board/ask**/**", "/board/comment**", "/point/record").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
